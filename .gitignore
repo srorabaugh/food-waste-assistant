@@ -1,0 +1,17 @@
+# Downloaded or derived datasets
+data/
+*.csv
+
+# Python environments and caches
+.venv/
+venv/
+foodenv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
