@@ -9,14 +9,21 @@ The notebooks in `notebooks/` capture the **current prototype**, including known
 - `notebooks/data_exploration.ipynb`: load the Food.com/Kaggle recipes CSV, select useful columns (including `RecipeId`, `AuthorName`, `AggregatedRating`, and `ReviewCount`), clean ingredient strings, and save `cleaned_recipes.csv`.
 - `notebooks/ingredient_matching.ipynb`: parse ingredient strings, calculate pantry ingredient overlap, rank candidate recipes using ratings and review counts, and attempt strict pantry-only filtering.
 
-## Known issues / next steps
+## Fixes in this checkpoint
 
-1. **Fix ingredient parsing.** The original `RecipeIngredientParts` field contains R-style vectors such as `c("cinnamon", "salt")`. Cleaning punctuation first can produce `ccinnamon`, and removing the first `c` unconditionally can damage real ingredients. Parse the original field instead.
-2. **Debug strict filtering.** Test `set(recipe_ingredients).issubset(user_ingredients)` on small examples; inspect matching counts and avoid stale notebook state.
-3. Recompute match scores whenever the user's ingredient list changes.
-4. Improve rating confidence with a stable Bayesian average based on review counts; avoid scaling by the largest review count in a filtered subset.
-5. Add original recipe links, attribution, and missing-ingredient explanations.
-6. Add tests, move reusable functions into `src/`, and eventually build a user interface.
+- Parse the original R-style ingredient vectors without stripping legitimate leading letters.
+- Recompute match scores and strict filtering together from the current pantry.
+- Use a review-count Bayesian shrinkage score (default prior strength: 20 reviews).
+- Display missing ingredients and add small notebook smoke tests.
+
+These changes have **not been run against the full downloaded dataset** because that CSV was not provided here. Run both notebooks in order locally to validate end-to-end behavior.
+
+## Remaining work
+
+1. Run the notebooks against the full downloaded dataset and inspect the strict match count.
+2. Add original recipe links and creator attribution in the interface.
+3. Improve ingredient synonyms and pantry matching (e.g., sugar vs granulated sugar).
+4. Move reusable functions into `src/`, expand tests, and build an interface.
 
 ## Setup
 
